@@ -1,0 +1,36 @@
+version: '3.1'
+#
+networks:
+    nyl_capacitaciones:
+      ipam:
+        config:
+          - subnet: 172.60.0.0/24
+#
+services:
+#    
+  db:
+    image: postgres:latest
+    restart: always
+    ports:
+    - 5678:5432
+    networks:
+      nyl_capacitaciones:
+        ipv4_address: 172.60.0.10
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data:rw
+#
+  moodle:
+    image: pasthortown/moodle:latest
+    restart: always
+    ports:
+    - "9090:80"
+    networks:
+      nyl_capacitaciones:
+        ipv4_address: 172.60.0.11
+    links:
+    - db
+    environment:
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.composer/vendor/bin
