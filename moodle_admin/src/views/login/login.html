@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Moodle Admin - Autenticación</title>
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="login.js"></script>
+  </head>
+  <body>
+    <form class="container" action="javascript:tryLogin(username.value, password.value)">
+        <div class="grid">
+            <div class="row mt-5 mb-5">
+                <div class="cell-2"></div>
+                <div class="cell-8 text-center">
+                    <div class="img-container">
+                        <img src="./../../assets/logo.png">
+                    </div>
+                </div>
+                <div class="cell-2"></div>
+            </div>
+            <div class="row">
+                <div class="cell-2"></div>
+                <div class="cell-8 text-center">
+                    <input type="text"
+                        data-role="materialinput"
+                        data-icon="<span class='mif-user'>"
+                        data-label="Usuario"
+                        data-informer="Ingrese un usuario de administración"
+                        placeholder="Ingrese un usuario de administración"
+                        id="username">
+                </div>
+                <div class="cell-2"></div>
+            </div>
+            <div class="row">
+                <div class="cell-2"></div>
+                <div class="cell-8 text-center">
+                    <input type="password"
+                        data-role="materialinput"
+                        data-icon="<span class='mif-key'>"
+                        data-label="Contraseña"
+                        data-informer="Ingrese la contraseña"
+                        placeholder="Ingrese la contraseña"
+                        id="password">
+                </div>
+                <div class="cell-2"></div>
+            </div>
+            <div class="row mt-5">
+                <div class="cell-2"></div>
+                <div class="cell-8 text-center">
+                    <input type="submit" class="button primary" id="login"></input>
+                </div>
+                <div class="cell-2"></div>
+            </div>
+        </div>
+    </form>
+  </body>
+</html>

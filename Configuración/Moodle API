@@ -1,0 +1,50 @@
+Área personal
+    Administración del sitio
+        Características avanzadas
+            HABILITAR WEB SERVICE
+Área personal
+    Administración del sitio
+        Extensiones
+            Servicios Web
+                Administrar Protocolos
+                    HABILITAR REST
+Área personal
+    Administración del sitio
+        Extensiones
+            Servicios Web
+                Servicios Externos
+                    CREAR API
+                    AGREGAR FUNCIONES
+Área personal
+    Administración del sitio
+        Usuarios
+            Cuentas
+                Agregar un usuario
+                    CREAR USUARIO PARA EL API
+Área personal
+    Administración del sitio
+        Usuarios
+            Permisos
+                Definir roles
+                    CREAR NUEVO ROL (Marcar SISTEMA)
+                        ACTIVAR
+                            webservice/ REST
+                            moodle/user Los necesarios
+                            moodle/course Los necesarios
+                            enrol Los necesarios
+                    Permitir Asignacion de roles
+                            Marcar los necesarios
+Área personal
+    Administración del sitio
+        Usuarios
+            Permisos
+                Asignar roles
+                    Asignar el Rol creado al usuario de API                        
+Área personal
+    Administración del sitio
+        Extensiones
+            Servicios Web
+                Administrar tokens
+                    Generar Token GUARDAR EL TOKEN GENERADO
+
+                    507204dfa06eef6dbb6b9fbd2839add2

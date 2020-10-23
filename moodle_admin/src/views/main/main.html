@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Moodle Admin</title>
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4.3.2/css/metro-all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <script src="main.js"></script>
+  </head>
+  <body>
+      <aside class="sidebar pos-absolute z-2"
+        data-role="sidebar"
+        data-toggle="#sidebar-toggle-3"
+        id="sb3"
+        data-shift=".shifted-content">
+        <div class="sidebar-header" data-image="./../../assets/background_profile.png">
+          <img src="./../../assets/profile.jpg" style="height: 80px; width: 80px; border-radius: 50%; margin:10px; border-color: white; border-style: solid; border-width: 2px;">
+          <span class="title fg-white">Administración de Estudiantes</span>
+          <span class="subtitle fg-white">2020 © NyL Capacitaciones</span>
+        </div>
+        <ul class="sidebar-menu">
+          <li><a onclick="matriculacion()"><span class="mif-books icon"></span>Matriculación</a></li>
+          <li><a onclick="certificados()"><span class="mif-medal icon"></span>Certificados</a></li>
+          <li><a onclick="exit()"><span class="mif-exit icon"></span>Cerrar Sesión</a></li>
+        </ul>
+      </aside>
+      <div class="shifted-content h-100 p-ab">
+        <div class="app-bar pos-absolute bg-darkIndigo z-1" data-role="appbar">
+          <button class="app-bar-item c-pointer" id="sidebar-toggle-3">
+            <span class="mif-menu fg-white"></span>
+          </button>
+        </div>
+        <div class="contanier" id="matriculacion_panel">
+          <div class="grid ml-2 mr-2">
+            <div class="row">
+                <div class="cell-12"><p class="h1">Matriculación</p></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group" id="cursos_list">
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group" id="students_tabs" style="display: none; text-align: center;">
+                  <button id="new_student_tab" class="button primary" onclick="nuevoEstudiante()">Estudiante Nuevo</button>
+                  <button id="old_student_tab" class="button secondary"onclick="existenteEstudiante()">Estudiante Existente</button>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+          </div>
+          <form class="grid ml-2 mr-2" id="nuevo_estudiante_panel" style="display: none" action="javascript:createStudent(
+              identification.value, 
+              firstname.value, 
+              lastname.value,
+              email.value,
+              main_phone.value,
+              secondary_phone.value,
+              countries_select.value,
+              city.value)">
+            <div class="row">
+              <div class="cell-12">
+                <p class="h4 text-center">Estudiante Nuevo</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group">
+                  <label>Identificación</label>
+                  <input type="text" data-role="input" id="identification" placeholder="Ejemplo: 1720364049"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group">
+                  <label>Nombres</label>
+                  <input type="text" data-role="input" id="firstname" placeholder="Ejemplo: Luis Alfonso"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group">
+                  <label>Apellidos</label>
+                  <input type="text" data-role="input" id="lastname" placeholder="Ejemplo: Salazar Vaca"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group">
+                  <label>Correo Electrónico</label>
+                  <input type="email" data-role="input" id="email" placeholder="Ejemplo: luissalazarvaca1986@gmail.com"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group">
+                  <label>Teléfono Principal</label>
+                  <input type="text" data-role="input" id="main_phone" placeholder="Ejemplo: +593998600661"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group">
+                  <label>Teléfono Secundario</label>
+                  <input type="text" data-role="input" id="secondary_phone" placeholder="Ejemplo: +593996583107"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group" id="country">
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group">
+                  <label>Ciudad</label>
+                  <input type="text" data-role="input" id="city" placeholder="Ejemplo: Quito"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row mb-5">
+              <div class="cell-1"></div>
+              <div class="cell-10 text-center">
+                <input type="submit" class="button primary" id="matriculate"></input>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+          </form>
+          <form class="grid ml-2 mr-2" id="existente_estudiante_panel" style="display: none" action="javascript:enrollExistsStudent()">
+            <div class="row">
+              <div class="cell-12">
+                <p class="h4 text-center">Estudiante Existente</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <div class="form-group" id="field">
+                  <label>Identificación o Correo Electrónico</label>
+                  <input type="text" data-role="input" id="criteria" data-search-button="true" placeholder="Ejemplo: 1720364049 / luissalazarvaca1986@gmail.com" data-search-button-click="custom" data-on-search-button-click="get_student"/>
+                </div>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row">
+              <div class="cell-1"></div>
+              <div class="cell-10">
+                <table class="table striped row-hover">
+                  <thead>
+                    <th>
+                      Seleccionado
+                    </th>
+                    <th>
+                      Ciudad
+                    </th>
+                    <th>
+                      Nombre Completo
+                    </th>
+                    <th>
+                      Correo Electrónico
+                    </th>
+                  </thead>
+                  <tbody id="student_data">
+
+                  </tbody>
+                </table>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+            <div class="row mb-5">
+              <div class="cell-1"></div>
+              <div class="cell-10 text-center">
+                <input type="submit" class="button primary" id="matriculate"></input>
+              </div>
+              <div class="cell-1"></div>
+            </div>
+          </form>
+        </div>
+        <div class="contanier" id="certificados_panel" style="display: none">
+          <div class="grid ml-2 mr-2">
+            <div class="row">
+                <div class="cell-12"><p class="h1">Certificados</p></div>
+            </div>
+            <div class="row">
+                <div class="cell-12"><p class="h1">Matriculación</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </body>
+</html>
