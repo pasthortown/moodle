@@ -3,12 +3,16 @@ $( document ).ready(function() {
 });
 
 let moodle_url= 'http://localhost:9090/moodle/webservice/rest/server.php';
+let mailer_url= 'http://localhost:9095/';
 let token = '';
 let matriculacion_panel;
 let certificados_panel;
 let categories = [];
 let courses = [];
 let student_id_selected = 0;
+let student_email_selected = '';
+let student_fullname_selected = '';
+let appName = 'NYL Capacitaciones';
 
 function onInit() {
     token = sessionStorage.getItem('token');
@@ -16,6 +20,49 @@ function onInit() {
     certificados_panel = document.getElementById('certificados_panel');
     build_countries();
     build_categories();
+}
+
+function sendMail(tipoMail, email, subject, information) {
+    const info = {
+        'tipoMail': tipoMail,
+        'email': email,
+        'subject': subject,
+        'information': information
+    };
+    $.post(mailer_url + '/enviar', JSON.stringify(info), function(data, status) {
+        console.log(data);
+    });
+}
+
+function enviar_credenciales(email, email_alias, userName, password) {
+    const information = {
+        para: email_alias,
+        appName: appName,
+        username: userName,
+        password: password
+    };
+    sendMail('mail', email, appName + ' - Creación de cuenta', information);
+}
+
+function enviar_matricula(email, email_alias, curso) {
+    const information = {
+        para: email_alias,
+        appName: appName,
+        curso: curso
+    };
+    sendMail('matricula', email, appName + ' - Matrícula - ' + curso, information);
+}
+
+function enviar_certificado(email, email_alias, pdfBase64, puntaje, curso) {
+    const information = {
+        para: email_alias,
+        appName: appName,
+        puntaje: puntaje,
+        curso: curso,
+        tipo_certificado: tipo_certificado,
+        pdfBase64: pdfBase64
+    };
+    sendMail('adjunto', email, appName + ' - Certificado - ' + curso, information);
 }
 
 function build_categories() {
@@ -108,28 +155,30 @@ function get_student() {
     $.get(moodle_url + '?wstoken=' + token + '&moodlewsrestformat=json&wsfunction='+wsfunction+'&criteria[0][key]=email&criteria[0][value]=' + criteria, function(data, status){
         users_email = data.users;
         users_email.forEach(user_email => {
-            student_data.innerHTML += '<tr onclick="select_student(' + user_email.id + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_email.id + '"></span></td><td>' + user_email.city + '</td><td>' + user_email.fullname + '</td><td>' + user_email.email + '</td></tr>';
+            student_data.innerHTML += '<tr onclick="select_student(' + user_email.id + ', ' + user_email.email + ', ' + user_email.fullname + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_email.id + '"></span></td><td>' + user_email.city + '</td><td>' + user_email.fullname + '</td><td>' + user_email.email + '</td></tr>';
         });
     });
     $.get(moodle_url + '?wstoken=' + token + '&moodlewsrestformat=json&wsfunction='+wsfunction+'&criteria[0][key]=username&criteria[0][value]=' + criteria, function(data, status){
         users_username = data.users;
         users_username.forEach(user_username => {
-            student_data.innerHTML += '<tr onclick="select_student(' + user_username.id + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_username.id + '"></span></td><td>' + user_username.city + '</td><td>' + user_username.fullname + '</td><td>' + user_username.email + '</td></tr>'; 
+            student_data.innerHTML += '<tr onclick="select_student(' + user_username.id + ', ' + user_username.email + ', ' + user_username.fullname + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_username.id + '"></span></td><td>' + user_username.city + '</td><td>' + user_username.fullname + '</td><td>' + user_username.email + '</td></tr>'; 
         });
     });
 }
 
-function select_student(id) {
+function select_student(id, email, fullname) {
     if (student_id_selected != 0) {
         document.getElementById('st_' + student_id_selected).style.display = "none";
     }
     document.getElementById('st_' + id).style.display = "block";
     student_id_selected = id;
+    student_email_selected = email;
+    student_fullname_selected = fullname;
 }
 
 function enrollExistsStudent() {
     if (student_id_selected != 0) {
-        matricular_estudiante(student_id_selected);
+        matricular_estudiante(student_id_selected, student_email_selected, student_fullname_selected);
     } else {
         Swal.fire({
             title: 'Matriculación',
@@ -175,7 +224,7 @@ function exit() {
 }
 
 function createStudent(identification, firstname, lastname, email, main_phone, secondary_phone, countries_select, city) {
-    let student = [{
+    let student = {
         username: identification, 
         password: password_generator(),
         firstname: firstname, 
@@ -185,16 +234,17 @@ function createStudent(identification, firstname, lastname, email, main_phone, s
         phone2: secondary_phone, 
         country: countries_select, 
         city: city
-    }];
-    let pass = validateStudent(student[0]);
+    };
+    let pass = validateStudent(student);
     if (pass == false) {
         return;
     }
     let wsfunction = 'core_user_create_users';
-    $.post(moodle_url + '?wstoken=' + token + '&moodlewsrestformat=json&wsfunction='+wsfunction, {users: student}, function(data, status){
+    $.post(moodle_url + '?wstoken=' + token + '&moodlewsrestformat=json&wsfunction='+wsfunction, {users: [student]}, function(data, status){
         try {
             student_id = data[0].id;
-            matricular_estudiante(student_id);
+            enviar_credenciales(student.email, student.firstname + ' ' + student.lastname, student.username, student.password);
+            matricular_estudiante(student_id, student.email, student.firstname + ' ' + student.lastname);
         } catch (error) {
             Swal.fire({
                 title: 'Matriculación',
@@ -206,15 +256,22 @@ function createStudent(identification, firstname, lastname, email, main_phone, s
     });
 }
 
-function matricular_estudiante(student_id) {
+function matricular_estudiante(student_id, email, fullname) {
     let wsfunction = 'enrol_manual_enrol_users';
     course_id = document.getElementById('course_selected').value;
-    enrolment = [{
+    let enrolment = [{
         userid: student_id,
         courseid: course_id,
         roleid: 5
     }];
+    let curso = '';
+    courses.forEach(course => {
+        if (course.id == course_id) {
+           curso = course.displayname;
+        }
+    });
     $.post(moodle_url + '?wstoken=' + token + '&moodlewsrestformat=json&wsfunction='+wsfunction, {enrolments: enrolment}, function(data, status) {
+        enviar_matricula(email, fullname, curso);
         Swal.fire({
             title: 'Matriculación',
             text: 'Estudiante matriculado satisfactoriamente',
