@@ -152,16 +152,17 @@ function get_student() {
     let student_data = document.getElementById('student_data');
     student_id_selected = 0;
     student_data.innerHTML = '';
+    comilla = "'";
     $.get(moodle_url + '?wstoken=' + token + '&moodlewsrestformat=json&wsfunction='+wsfunction+'&criteria[0][key]=email&criteria[0][value]=' + criteria, function(data, status){
         users_email = data.users;
         users_email.forEach(user_email => {
-            student_data.innerHTML += '<tr onclick="select_student(' + user_email.id + ', ' + user_email.email + ', ' + user_email.fullname + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_email.id + '"></span></td><td>' + user_email.city + '</td><td>' + user_email.fullname + '</td><td>' + user_email.email + '</td></tr>';
+            student_data.innerHTML += '<tr onclick="select_student(' + user_email.id + ', ' + comilla + user_email.email + comilla  + ', ' + comilla + user_email.fullname + comilla + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_email.id + '"></span></td><td>' + user_email.city + '</td><td>' + user_email.fullname + '</td><td>' + user_email.email + '</td></tr>';
         });
     });
     $.get(moodle_url + '?wstoken=' + token + '&moodlewsrestformat=json&wsfunction='+wsfunction+'&criteria[0][key]=username&criteria[0][value]=' + criteria, function(data, status){
         users_username = data.users;
         users_username.forEach(user_username => {
-            student_data.innerHTML += '<tr onclick="select_student(' + user_username.id + ', ' + user_username.email + ', ' + user_username.fullname + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_username.id + '"></span></td><td>' + user_username.city + '</td><td>' + user_username.fullname + '</td><td>' + user_username.email + '</td></tr>'; 
+            student_data.innerHTML += '<tr onclick="select_student(' + user_username.id + ', ' + comilla + user_username.email + comilla + ', ' + comilla + user_username.fullname + comilla + ')"><td style="text-align: right;"><span class="mif-play mif fg-blue" style="display:none;" id="st_' + user_username.id + '"></span></td><td>' + user_username.city + '</td><td>' + user_username.fullname + '</td><td>' + user_username.email + '</td></tr>'; 
         });
     });
 }
