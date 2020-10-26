@@ -35,7 +35,7 @@ services:
     environment:
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.composer/vendor/bin
 #
-  mailer:
+  api:
     image: pasthortown/php-apache:latest
     restart: always
     ports:
@@ -45,6 +45,8 @@ services:
         ipv4_address: 172.60.0.12
     volumes:
       - ./services:/var/www/html/services
-    command: php -S 0.0.0.0:5000 -t /var/www/html/services/server-mailer/public
+    links:
+      - db
+    command: php -S 0.0.0.0:5000 -t /var/www/html/services/server-api/public
     environment:
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:~/.composer/vendor/bin

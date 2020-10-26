@@ -1,6 +1,6 @@
 FROM php:7.4-apache
 COPY moodle /var/www/html/moodle
-RUN mkdir /var/moodledata
+RUN mkdir /var/www/moodledata
 RUN chown -R www-data /var/moodledata
 RUN chmod -R 777 /var/moodledata
 RUN chmod -R 777 /var/www/html/moodle
@@ -54,8 +54,5 @@ RUN docker-php-ext-install \
             ldap \
             soap \
             zip
-RUN curl -sS https://getcomposer.org/installer -o composer-setup.php
-RUN php composer-setup.php --install-dir=/usr/local/bin --filename=composer
-RUN rm composer-setup.php
 RUN apt-get clean \
     && rm -rf /var/lib/apt/lists/*

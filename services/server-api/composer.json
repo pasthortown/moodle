@@ -6,10 +6,15 @@
     "type": "project",
     "require": {
         "php": "^7.2",
+        "barryvdh/laravel-dompdf": "^0.8.4",
+        "dompdf/dompdf": "^0.8.3",
         "firebase/php-jwt": "^5.0",
+        "graham-campbell/flysystem": "^7.1",
         "illuminate/mail": "^6.11",
         "laravel/lumen-framework": "^6.0",
-        "palanik/lumen-cors": "dev-master"
+        "maatwebsite/excel": "^3.1",
+        "palanik/lumen-cors": "dev-master",
+        "simplesoftwareio/simple-qrcode": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "^1.4",
