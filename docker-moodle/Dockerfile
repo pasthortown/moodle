@@ -1,8 +1,8 @@
 FROM php:7.4-apache
 COPY moodle /var/www/html/moodle
 RUN mkdir /var/www/moodledata
-RUN chown -R www-data /var/moodledata
-RUN chmod -R 777 /var/moodledata
+RUN chown -R www-data /var/www/moodledata
+RUN chmod -R 777 /var/www/moodledata
 RUN chmod -R 777 /var/www/html/moodle
 RUN apt-get update && apt-get install -y \
         graphviz \
