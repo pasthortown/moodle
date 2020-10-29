@@ -398,7 +398,7 @@ function enviar_certificado() {
     let estudiante = 'Luis David Salazar Loaiza';
     let puntos_obetnidos = '9.56';
     let puntos_totales = '10.00';
-    let curso = 'EL MEJOR HIJO DEL AÑO';
+    let curso = 'EL MEJOR HIJO DEL AÑO EL MAS BONITO Y EL MÁS INTELIGENTE DE TODO EL MUNDO MUNDISIMO MUNDIAL EL MÁS AMADO Y EL MÁS QUERIDO';
     let fecha_inicio = '24/10/2020';
     let fecha_fin = '28/10/2020';
     let horas = '40';
