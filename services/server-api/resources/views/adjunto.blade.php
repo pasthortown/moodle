@@ -12,9 +12,12 @@
         <tr>
             <td style="font-family:'Arial',Helvetica,sans-serif;font-size:12px;color:#5f6062;">
                 <blockquote><span style="font-family:'arial',Helvetica,sans-serif;font-size:13px;color:#5f6062;">
-                <strong>Saludos, {{ $information['para'] }} </strong></span>
+                <strong>Saludos, {{ $information['estudiante'] }} </strong></span>
                 <br><br><br>
-                <p>Por haber alcanzado un puntaje total de <strong>{{ $information['puntaje'] }}</strong>, en el curso denominado <strong>{{ $information['curso'] }}</strong>, adjuntamos al presente su certificado de <strong>{{ $information['tipo_certificado'] }}</strong>.</p>
+                <p>Por haber alcanzado una calificación de <strong>{{ $information['puntos_obetnidos'] }}</strong> sobre <strong>{{ $information['puntos_totales'] }}</strong> , en el curso:</p>
+                <p><strong>{{ $information['curso'] }}</strong></p>
+                <p>Realizado del <strong>{{ $information['fecha_inicio'] }}</strong> al <strong>{{ $information['fecha_fin'] }}</strong> con una duración de <strong>{{ $information['horas'] }}</strong> horas.</p>
+                <p>Adjuntamos al presente su certificado de <strong>{{ $information['tipo_certificado'] }}</strong>.</p>
                 <p>Atentamente,</p>
                 <p><strong> {{ $information['appName'] }} </strong></p>
                 </blockquote>

@@ -20,8 +20,12 @@ function httpPost($url, $data=NULL, $headers = NULL, $token) {
 }
 
 $url = 'http://localhost:9095/template';
+
 $backup_templates_file = fopen("./templates.json", "r") or die("Error al buscar el backup!");
-$backup_templates = fread($backup_templates_file,filesize("./templates.json"));
+$backup_templates_json = fread($backup_templates_file,filesize("./templates.json"));
 fclose($backup_templates_file);
-echo $backup_templates;
-//$respuesta = $this->httpPost($url, json_encode($data), null, null);
+$backup_templates = json_decode($backup_templates_json);
+foreach($backup_templates as $data) {
+    $respuesta = httpPost($url, json_encode($data->Template), null, null);
+}
+echo "Plantillas Cargadas";

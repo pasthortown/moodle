@@ -3,7 +3,7 @@ $( document ).ready(function() {
 });
 
 let moodle_url= 'http://localhost:9090/moodle/webservice/rest/server.php';
-let mailer_url= 'http://localhost:9095/';
+let api_url= 'http://localhost:9095/';
 let token = '';
 let matriculacion_panel;
 let certificados_panel;
@@ -24,12 +24,12 @@ function onInit() {
 
 function sendMail(tipoMail, email, subject, information) {
     const info = {
-        'tipoMail': tipoMail,
-        'email': email,
-        'subject': subject,
-        'information': information
+        tipoMail: tipoMail,
+        email: email,
+        subject: subject,
+        information: information
     };
-    $.post(mailer_url + '/enviar', JSON.stringify(info), function(data, status) {
+    $.post(api_url + '/enviar', JSON.stringify(info), function(data, status) {
         console.log(data);
     });
 }
@@ -391,6 +391,68 @@ function password_generator() {
         pass_array.splice(item, 1);
     }
     return toReturn;
+}
+
+function enviar_certificado() {
+    let tipo_certificado = 'Aprobación';
+    let estudiante = 'Luis David Salazar Loaiza';
+    let puntos_obetnidos = '9.56';
+    let puntos_totales = '10.00';
+    let curso = 'EL MEJOR HIJO DEL AÑO';
+    let fecha_inicio = '24/10/2020';
+    let fecha_fin = '28/10/2020';
+    let horas = '40';
+    let firma_1 = 'Luis Alfonso Salazar Vaca';
+    let cargo_1 = 'PAPI CASA PUENTE 2';
+    let firma_2 = 'María Belén Loaiza Rodríguez';
+    let cargo_2 = 'MAMI CASA PUENTE 2';
+    const params = [
+        {tipo_certificado: tipo_certificado},
+        {estudiante: estudiante},
+        {puntos_obetnidos: puntos_obetnidos},
+        {puntos_totales: puntos_totales},
+        {curso: curso},
+        {fecha_inicio: fecha_inicio},
+        {fecha_fin: fecha_fin},
+        {horas: horas},
+        {firma_1: firma_1},
+        {cargo_1: cargo_1},
+        {firma_2: firma_2},
+        {cargo_2: cargo_2}
+    ];
+    data = {
+        template_id: 1,
+        params: params, 
+        qr: true, 
+        qr_content: 'LSYSTEMS 2020'
+    };
+    $.post(api_url + '/download/template', JSON.stringify(data), function(data, status) {
+        const info = {
+            tipoMail: 'adjunto',
+            email: 'luissalazarvaca1986@gmail.com',
+            subject: 'certificado',
+            information: {
+                tipo_certificado: tipo_certificado,
+                para: estudiante,
+                appName: appName,
+                estudiante: estudiante,
+                puntos_obetnidos: puntos_obetnidos,
+                puntos_totales: puntos_totales,
+                curso: curso,
+                fecha_inicio: fecha_inicio,
+                fecha_fin: fecha_fin,
+                horas: horas,
+                firma_1: firma_1,
+                cargo_1: cargo_1,
+                firma_2: firma_2,
+                cargo_2: cargo_2,
+                pdfBase64: data
+            }
+        };        
+        $.post(api_url + '/enviar', JSON.stringify(info), function(data, status) {
+            console.log(data);
+        });
+    });
 }
 
 var countries = [
