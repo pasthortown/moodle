@@ -1,0 +1,1 @@
+docker exec 517 pg_dumpall -U postgres > db.sql
