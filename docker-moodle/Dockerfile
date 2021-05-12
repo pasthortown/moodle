@@ -24,14 +24,15 @@ RUN apt-get update && apt-get install -y \
         libpng-dev \
         libldb-dev \
         libldap2-dev \
+        libpq-dev\
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
-RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
-    apt-key add -
+# RUN echo "deb http://apt.postgresql.org/pub/repos/apt buster-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+# RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | \
+#     apt-key add -
 RUN apt-get update
 RUN apt-get install --no-install-recommends -y \
-        postgresql-server-dev-9.5 \
+        # postgresql-server-dev-9.5 \
         zlib1g-dev \
         libicu-dev \
         g++ \
