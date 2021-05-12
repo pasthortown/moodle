@@ -12,7 +12,7 @@ services:
     image: postgres:latest
     restart: always
     ports:
-    - 5678:5432
+    - 5432:5432
     networks:
       nyl_capacitaciones:
         ipv4_address: 172.60.0.10
